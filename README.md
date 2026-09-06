@@ -33,7 +33,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     {
-      "jharmon-istari/nvim-config",
+      "johnharmon/nvim-config",
       import = "jharmon.plugins", -- pulls in every plugin spec
       main = "jharmon",           -- so lazy calls require("jharmon").setup()
       opts = {},
