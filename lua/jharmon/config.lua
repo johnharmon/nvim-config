@@ -63,6 +63,14 @@ M.defaults = {
 		floaterm = true,
 		working = true,
 		kubectl_kinds = true,
+		kubectl_secrets = true,
+	},
+
+	-- Base64 decoding in kubectl.nvim's Secret YAML view.
+	kubectl_secrets = {
+		auto = true, -- decode the data block as soon as the view loads
+		key = "gb", -- buffer-local toggle between decoded and raw
+		notify = true, -- report values left encoded because they are binary
 	},
 
 	-- Treesitter parsers kept installed and updated.

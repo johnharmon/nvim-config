@@ -17,7 +17,7 @@ local order = {
 }
 
 -- Fixed order so a failure is reproducible; pairs() over the config table is not.
-local extras = { "floaterm", "working", "kubectl_kinds" }
+local extras = { "floaterm", "working", "kubectl_kinds", "kubectl_secrets" }
 
 function M.setup()
 	local cfg = require("jharmon.config").get()

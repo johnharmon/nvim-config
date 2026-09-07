@@ -76,7 +76,10 @@ it calls `setup()`, so anything a spec reads must come from `vim.g.jharmon`.
 | `acm_ls.cmd` | `<dir>/lsp-server/acm-ls` | |
 | `working.root` | `$WORKING_ROOT`, then `~/git/autoshiftv2` | Parent of the `.working` symlink dir |
 | `codecompanion.url` / `.proxy` / `.model` | LAN ollama | |
-| `extras.floaterm` / `.working` / `.kubectl_kinds` | `true` | Standalone feature modules |
+| `extras.floaterm` / `.working` / `.kubectl_kinds` / `.kubectl_secrets` | `true` | Standalone feature modules |
+| `kubectl_secrets.auto` | `true` | Decode a Secret's `data:` block as soon as the YAML view loads |
+| `kubectl_secrets.key` | `"gb"` | Buffer-local toggle between decoded and raw |
+| `kubectl_secrets.notify` | `true` | Report values left encoded because they are binary |
 | `treesitter` | 28 parsers | Kept installed and updated |
 
 ## Layout
@@ -158,6 +161,18 @@ Leader is `<Space>`.
 `<leader>ac` toggle · `af` focus · `ar` resume · `aC` continue · `am` model ·
 `ab` add buffer · `as` send selection / add file · `aa` accept diff · `ad` deny diff ·
 `<leader>ch` CodeCompanion chat · `<leader>cca` CodeCompanion actions
+
+### Kubernetes secrets (`extras.kubectl_secrets`)
+`gy` on a Secret opens the YAML view and the `data:` block is decoded
+automatically. `gb` toggles back to the raw base64, `gr` re-fetches,
+`:KubectlSecretsDecode` toggles from anywhere. `gd` (describe) is not useful for
+Secrets — `kubectl describe` only prints byte counts, never values.
+
+Only the top-level `data:` block is touched, and only when a value is valid
+base64 *and* decodes to text, so annotations are never mangled and binary
+payloads (keystores, `.gz`, docker config blobs) stay encoded. Multi-line values
+become YAML literal blocks. kubectl.nvim's own `<CR>` one-line decoder still
+works alongside this.
 
 ### Harpoon / kubectl / iron / colors
 `<leader>ha` add · `hq` menu · `hh` prev · `hl` next ·
