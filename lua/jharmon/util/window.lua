@@ -44,6 +44,14 @@ function M.oil_sidebar()
 	end
 end
 
+--- `vertical resize N` is absolute; `vertical resize +N` / `-N` is relative.
+--- Lua drops the leading `+` when concatenating a positive number, so build the
+--- signed argument explicitly.
+---@param n integer
+local function resize_by(n)
+	return ("vertical resize %+d"):format(n)
+end
+
 --- Resize so the *vertical separator to the left of the cursor* moves.
 ---
 --- Plain `vertical resize` always grows the current window to the right, which
@@ -60,7 +68,7 @@ function M.resize_horizontal(dir)
 
 	if right == cur then
 		-- Rightmost window: the only movable border is our left one.
-		vim.cmd("vertical resize " .. (-step))
+		vim.cmd(resize_by(-step))
 		return
 	end
 
@@ -71,11 +79,11 @@ function M.resize_horizontal(dir)
 	local left = vim.api.nvim_get_current_win()
 
 	if left ~= cur then
-		vim.cmd("vertical resize " .. step)
+		vim.cmd(resize_by(step))
 		vim.cmd("wincmd l")
 	else
 		-- Leftmost window: resize in place.
-		vim.cmd("vertical resize " .. step)
+		vim.cmd(resize_by(step))
 	end
 end
 
